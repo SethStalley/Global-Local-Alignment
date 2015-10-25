@@ -6,8 +6,8 @@
     -global filename1 filename2
 */
 int main(int argc, char const *argv[]) {
-  char tempSecA[] = "GCATGCU";
-  char tempSecB[] = "GATTACA";     // xD like the movie!
+  char tempSecA[] = "GCATGCA";
+  char tempSecB[] = "GATTAC";
 
   globalAlignment(tempSecA,tempSecB);
 

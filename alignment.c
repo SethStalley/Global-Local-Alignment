@@ -2,6 +2,7 @@
 #include "aux.h"
 #include <string.h>
 
+//edit these from main to change behavior
 int GAP_PENALTY =  -1;
 int MATCH = 1;
 int MISMATCH = -1;
@@ -10,7 +11,6 @@ int MISMATCH = -1;
 int score(char a, char b){
   return a == b ? MATCH : MISMATCH;
 }
-
 
 /*
   Globally Aligns two secuences using Needleman Wunsch's algorithm
@@ -24,14 +24,15 @@ int globalAlignment(char *secA, char *secB){
   int lenB = strlen(secB)+1;
 
   //declare our score matrix
-  int scoreMatrix[lenB][lenA];
+  int scoreMatrix[lenA][lenB];
 
-  //fill first row with 0's
-  for(int i=0;i<lenA;i++)
-    scoreMatrix[0][i] = -i;
   //fill first columns with 0's
-  for(int i=0;i<lenB;i++)
+  for(int i=0;i<lenA;i++)
     scoreMatrix[i][0] = -i;
+  //fill first row with 0's
+  for(int i=0;i<lenB;i++)
+    scoreMatrix[0][i] = -i;
+
 
   //score the secuences
   for(int i = 1; i < lenA; i++)
@@ -53,7 +54,7 @@ int globalAlignment(char *secA, char *secB){
       scoreMatrix[i][j] = max(scores, 3);
     }
 
-  printMatrix((int *)scoreMatrix, lenA,lenB);
+  printMatrix(lenA,lenB,scoreMatrix);
 
   //compute alignment
   char AlignmentA[2*lenA];
@@ -127,9 +128,6 @@ static int H(int i, int j, int **matrix, char *secA, char *secB)
 
     return max(n,3);
 }
-
-
-
 
 
 

@@ -3,5 +3,5 @@
 #include <string.h>
 
 int max(int numbers[], int len);
-void printMatrix(int *matrix, int lenA,int lenB);
+void printMatrix(int lenA, int lenB,int matrix[][lenB]);
 void strReverse(char* str);

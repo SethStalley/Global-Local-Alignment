@@ -15,15 +15,15 @@ int max(int numbers[], int len){
   for(int i = 1; i< len; i++)
     if(numbers[i] > max)
       max = numbers[i];
-      
+
   return max;
 }
 
-void printMatrix(int *matrix, int lenA, int lenB){
+void printMatrix(int lenA, int lenB,int matrix[][lenB]){
   puts("Matrix is:");
   for(int i =0; i< lenA; i++){
-    for(int j = 0; j<lenB;j++)
-      printf("%d\t", *((matrix+i*lenB)+j));
+    for(int j = 0; j< lenB;j++)
+      printf("%d\t", matrix[i][j]);
     puts("");
   }
 }
