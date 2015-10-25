@@ -53,8 +53,8 @@ int globalAlignment(char *secA, char *secB){
       //pick the best
       scoreMatrix[i][j] = max(scores, 3);
     }
-
-  printMatrix(lenA,lenB,scoreMatrix);
+    //uncomment to see score matrix
+  //printMatrix(lenA,lenB,scoreMatrix);
 
   //compute alignment
   char AlignmentA[2*lenA];
@@ -106,48 +106,48 @@ int globalAlignment(char *secA, char *secB){
 */
 
 
-
-
-// *** AUXILIAR METHODS FOR LOCAL ALIGNMENT IMPLEMENTATION***
-
-static int s(int i, int j, char *secA, char *secB)
-{
-    return ((secA[i] == secB[j]) ? 1 : -1);
-}
-
-
-// H functions returns the maximun similarity score from a suffix of a[1...i] and a suffix of b[1...j]
-static int H(int i, int j, int **matrix, char *secA, char *secB)
-{
-    int n[3];
-    n[0]=n[1]=n[2]=0;
-
-    n[0] = matrix[i-1][j-1] + s(i,j,secA,secB);
-    n[1] = matrix[i-1][j] + GAP_PENALTY;
-    n[2] = matrix[i][j-1] + GAP_PENALTY;
-
-    return max(n,3);
-}
-
-
-
-// ************************************
-
-int localAlignment(char *secA, char *secB)
-{
-    int lenA = 2+strlen(secA);
-    int lenB = 2+strlen(secB);
-    int i, j;
-
-    int matrix[lenA][lenB];
-
-    // setmatrix(matrix,lenA,lenB,0);
-    //
-    // for(i=0; i<lenA; i++){
-    //     for(j=0; j <lenB;j++){
-    //         matrix[i][j] = H(i,j,matrix,secA,secB);
-    //     }
-    // }
-
-
-}
+//
+//
+// // *** AUXILIAR METHODS FOR LOCAL ALIGNMENT IMPLEMENTATION***
+//
+// static int s(int i, int j, char *secA, char *secB)
+// {
+//     return ((secA[i] == secB[j]) ? 1 : -1);
+// }
+//
+//
+// // H functions returns the maximun similarity score from a suffix of a[1...i] and a suffix of b[1...j]
+// static int H(int i, int j, int **matrix, char *secA, char *secB)
+// {
+//     int n[3];
+//     n[0]=n[1]=n[2]=0;
+//
+//     n[0] = matrix[i-1][j-1] + s(i,j,secA,secB);
+//     n[1] = matrix[i-1][j] + GAP_PENALTY;
+//     n[2] = matrix[i][j-1] + GAP_PENALTY;
+//
+//     return max(n,3);
+// }
+//
+//
+//
+// // ************************************
+//
+// int localAlignment(char *secA, char *secB)
+// {
+//     int lenA = 2+strlen(secA);
+//     int lenB = 2+strlen(secB);
+//     int i, j;
+//
+//     int matrix[lenA][lenB];
+//
+//     // setmatrix(matrix,lenA,lenB,0);
+//     //
+//     // for(i=0; i<lenA; i++){
+//     //     for(j=0; j <lenB;j++){
+//     //         matrix[i][j] = H(i,j,matrix,secA,secB);
+//     //     }
+//     // }
+//
+//
+// }
