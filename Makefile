@@ -1,7 +1,7 @@
 TARGET = align
 LIBS = -lm
 CC = gcc
-CFLAGS = -g -Wall -std=c11
+CFLAGS = -std=gnu99
 
 .PHONY: default all clean
 
