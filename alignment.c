@@ -2,14 +2,11 @@
 #include "aux.h"
 #include <string.h>
 
-//edit these from main to change behavior
-int GAP_PENALTY =  -1;
-int MATCH = 1;
-int MISMATCH = -1;
+
 
 //score equality of two chars
-int score(char a, char b){
-  return a == b ? MATCH : MISMATCH;
+int score(char a, char b, int match, int mismatch){
+  return a == b ? match : mismatch;
 }
 
 /*
@@ -17,9 +14,11 @@ int score(char a, char b){
   @Input:
     String1
     String2
+    type: 0 = local Waterman or 1 = global Needleman
   Both should be of equal length
 */
-int globalAlignment(char *secA, char *secB){
+int alignment(char *secA, char *secB, int type,
+int match,int mismatch,int gapPenalty){
   int lenA = strlen(secA)+1;
   int lenB = strlen(secB)+1;
 
@@ -28,10 +27,10 @@ int globalAlignment(char *secA, char *secB){
 
   //fill first columns with 0's
   for(int i=0;i<lenA;i++)
-    scoreMatrix[i][0] = -i;
+    scoreMatrix[i][0] = type ? -i : 0;
   //fill first row with 0's
   for(int i=0;i<lenB;i++)
-    scoreMatrix[0][i] = -i;
+    scoreMatrix[0][i] = type ? -i : 0;
 
 
   //score the secuences
@@ -40,13 +39,13 @@ int globalAlignment(char *secA, char *secB){
     {
       //score diagonal
       int scoreDiag =
-      scoreMatrix[i-1][j-1]+ score(secA[i-1],secB[j-1]);
+      scoreMatrix[i-1][j-1]+ score(secA[i-1],secB[j-1], match, mismatch);
 
 
       //score left one
-      int leftScore = scoreMatrix[i][j-1] + GAP_PENALTY;
+      int leftScore = scoreMatrix[i][j-1] + gapPenalty;
       //score up one
-      int upScore = scoreMatrix[i-1][j] + GAP_PENALTY;
+      int upScore = scoreMatrix[i-1][j] + gapPenalty;
 
       int scores[3] = {scoreDiag, leftScore, upScore};
 
@@ -69,12 +68,12 @@ int globalAlignment(char *secA, char *secB){
   while (i > 0 || j > 0)
   {
     if(i > 0 && j > 0 &&
-    scoreMatrix[i][j] == scoreMatrix[i-1][j-1]+score(secA[i-1], secB[j-1]))
+    scoreMatrix[i][j] == scoreMatrix[i-1][j-1]+score(secA[i-1], secB[j-1], match, mismatch))
     {
       AlignmentA[a] = secA[i-- -1];
       AlignmentB[a] = secB[j-- -1];
     }
-    else if(i > 0 && scoreMatrix[i][j] == scoreMatrix[i-1][j] + GAP_PENALTY)
+    else if(i > 0 && scoreMatrix[i][j] == scoreMatrix[i-1][j] + gapPenalty)
     {
       AlignmentA[a] = secA[i-- -1];
       AlignmentB[a] = '-';
@@ -96,58 +95,3 @@ int globalAlignment(char *secA, char *secB){
   //all is good
   return 1;
 }
-
-/*
-  Locally Aligns two secuences using Smith-Waterman's algorithm
-  @Input:
-    String1
-    String2
-  Both should be of equal length
-*/
-
-
-//
-//
-// // *** AUXILIAR METHODS FOR LOCAL ALIGNMENT IMPLEMENTATION***
-//
-// static int s(int i, int j, char *secA, char *secB)
-// {
-//     return ((secA[i] == secB[j]) ? 1 : -1);
-// }
-//
-//
-// // H functions returns the maximun similarity score from a suffix of a[1...i] and a suffix of b[1...j]
-// static int H(int i, int j, int **matrix, char *secA, char *secB)
-// {
-//     int n[3];
-//     n[0]=n[1]=n[2]=0;
-//
-//     n[0] = matrix[i-1][j-1] + s(i,j,secA,secB);
-//     n[1] = matrix[i-1][j] + GAP_PENALTY;
-//     n[2] = matrix[i][j-1] + GAP_PENALTY;
-//
-//     return max(n,3);
-// }
-//
-//
-//
-// // ************************************
-//
-// int localAlignment(char *secA, char *secB)
-// {
-//     int lenA = 2+strlen(secA);
-//     int lenB = 2+strlen(secB);
-//     int i, j;
-//
-//     int matrix[lenA][lenB];
-//
-//     // setmatrix(matrix,lenA,lenB,0);
-//     //
-//     // for(i=0; i<lenA; i++){
-//     //     for(j=0; j <lenB;j++){
-//     //         matrix[i][j] = H(i,j,matrix,secA,secB);
-//     //     }
-//     // }
-//
-//
-// }

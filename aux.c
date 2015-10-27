@@ -1,13 +1,7 @@
 #include "aux.h"
+#include "alignment.h"
 
-//fills all the cells in a matrix with the same value
-// void setmatrix(int **matrix, int lenA, int lenB, int val)
-// {
-//     for(i=0; i<lenA; i++){
-//         for(j=0; j <lenB;j++){
-//             matrix[i][j] = val;
-//         }
-// }
+
 
 //returns the greatest of list of numbers
 int max(int numbers[], int len){

@@ -1,6 +1,30 @@
 #include "io.h"
 
 /*
+    @input
+        - three element int array
+        -params.txt must exist in Path
+    @Output
+        -list cantaing three basic paramenters in form
+        [Match, Mismatch, Gap]
+*/
+void loadParams(int *params){
+    char *file = strFromFile("params.txt");
+    int size = strlen(file);
+
+    char strParam[3];
+    int paramNum = 0;
+
+    for(int i = 0; i < size; i++){
+        if(file[i] == '='){
+            const char *strNum = &(file[i+1]);
+            strncpy(strParam, strNum, 2);
+            params[paramNum++] = atoi(strParam);
+        }
+    }
+}
+
+/*
     @Input
         - Path to txt file or file name if same dir
     @Output (**Is Dinamic**)
