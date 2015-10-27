@@ -2,6 +2,14 @@
 #include "alignment.h"
 
 
+void save_timing(long long *nsec,
+                  struct timespec st,
+                  struct timespec et
+)
+{
+  (*nsec) = (et.tv_nsec - st.tv_nsec);//average
+}
+
 
 //returns the greatest of list of numbers
 int max(int numbers[], int len){

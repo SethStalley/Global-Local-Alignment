@@ -52,6 +52,12 @@ char * strFromFile(const char *path){
     // copy the file into the buffer:
     fread (buffer,1,size,f);
 
+    for(int i = 0; i< strlen(buffer);i++){
+        if(buffer[i] == '\n'){
+            buffer[i] = buffer[++i];
+        }
+    }
+
     fclose(f);
     return buffer;
 }

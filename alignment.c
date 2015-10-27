@@ -1,8 +1,4 @@
 #include "alignment.h"
-#include "aux.h"
-#include <string.h>
-
-
 
 //score equality of two chars
 int score(char a, char b, int match, int mismatch){
@@ -22,8 +18,19 @@ int match,int mismatch,int gapPenalty){
   int lenA = strlen(secA)+1;
   int lenB = strlen(secB)+1;
 
+
   //declare our score matrix
-  int scoreMatrix[lenA][lenB];
+  //int scoreMatrix[lenA][lenB];
+  int **scoreMatrix = malloc(lenB * sizeof *scoreMatrix);
+  for (int i = 0; i < lenB; i++)
+    scoreMatrix[i] = malloc(lenA * sizeof *scoreMatrix[i]);
+
+
+  //used to time algorithm
+  long long nsec = 0;
+  long long *ptrNsec = &nsec;
+  struct timespec st,et;
+  clock_gettime(CLOCK_REALTIME,&st);
 
   //fill first columns with 0's
   for(int i=0;i<lenA;i++)
@@ -55,9 +62,10 @@ int match,int mismatch,int gapPenalty){
     //uncomment to see score matrix
   //printMatrix(lenA,lenB,scoreMatrix);
 
+
   //compute alignment
-  char AlignmentA[2*lenA];
-  char AlignmentB[2*lenB];
+  char AlignmentA[4*lenA];
+  char AlignmentB[4*lenB];
 
 
   int i = lenA-1;
@@ -87,10 +95,17 @@ int match,int mismatch,int gapPenalty){
   }
   AlignmentA[a] = AlignmentB[a] = 0;
 
+  free(**scoreMatrix);
+
+  //used to tiem algorithm
+  clock_gettime(CLOCK_REALTIME,&et);
+  save_timing(ptrNsec,st,et);
+
   strReverse(AlignmentA);
   strReverse(AlignmentB);
   printf("%s\n", AlignmentA);
   printf("%s\n", AlignmentB);
+  printf("%lluns Runing time\n",nsec);
 
   //all is good
   return 1;

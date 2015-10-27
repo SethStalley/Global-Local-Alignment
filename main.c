@@ -23,6 +23,10 @@ int main(int argc, char const *argv[]) {
   if(argc == 4 && ((strcmp(argv[1], PRM_GLOBAL) == 0)  || (strcmp(argv[1], PRM_LOCAL) == 0))  ){
       char *secuenceA = strFromFile(argv[2]);
       char *secuenceB = strFromFile(argv[3]);
+      int size = strlen(secuenceA);
+      printf("%d\n",size);
+      size = strlen(secuenceB);
+      printf("%d\n", size);
       if(secuenceA && secuenceB){
         if  (strcmp(argv[1], PRM_GLOBAL) == 0)
             //global alignment
